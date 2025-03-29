@@ -1,0 +1,16 @@
+@page
+@{
+    ViewData["Title"] = "Inicio";
+    Layout = "_Layout"; 
+}
+
+@await Html.PartialAsync("_Header")
+@await Html.PartialAsync("_HeroSection")
+@await Html.PartialAsync("_FeaturesSection")
+@await Html.PartialAsync("_AboutSection")
+@await Html.PartialAsync("_TechSection")
+@await Html.PartialAsync("_MapSection")
+@await Html.PartialAsync("_StatsSection")
+@await Html.PartialAsync("_NewsSection")
+@await Html.PartialAsync("_FAQSection")
+@await Html.PartialAsync("_Footer")

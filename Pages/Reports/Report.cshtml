@@ -1,0 +1,31 @@
+@model List<ProyectoReportes.Models.Incident>
+
+<div class="mt-6 overflow-x-auto bg-white shadow-md rounded-lg">
+    <table class="w-full border-collapse">
+        <thead>
+            <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                <th class="py-3 px-6 text-left">ID</th>
+                <th class="py-3 px-6 text-left">Descripción</th>
+                <th class="py-3 px-6 text-left">Fecha</th>
+                <th class="py-3 px-6 text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-700 text-sm">
+            @foreach (var incident in Model)
+            {
+                <tr class="border-b border-gray-200 hover:bg-gray-100 transition">
+                    <td class="py-3 px-6">@incident.IncidentId</td>
+                    <td class="py-3 px-6">@incident.Description</td>
+                    <td class="py-3 px-6">@incident.OccurredAt.ToLocalTime().ToString("g")</td>
+                    <td class="py-3 px-6 text-center">
+                        <a class="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition"
+                           asp-page="/Reports/Details"
+                           asp-route-id="@incident.IncidentId">
+                            🔍 Detalles
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

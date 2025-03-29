@@ -1,0 +1,48 @@
+@page
+@model ProyectoReportes.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = "_Layout";
+}
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+    <div class="w-full max-w-md p-6 space-y-6 bg-white rounded-xl shadow-2xl">
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-gray-800">Iniciar Sesión</h2>
+            <p class="mt-2 text-sm text-gray-600">Ingresa tus credenciales para acceder</p>
+        </div>
+
+        <form method="post" class="space-y-5">
+            @Html.AntiForgeryToken()
+
+            <div>
+                <label for="username" class="block text-gray-700 font-medium mb-1">Usuario</label>
+                <input type="text" id="username" name="LoginRequest.Username" value="@Model.LoginRequest.Username"
+                    placeholder="Ingresa tu usuario"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 transition" />
+            </div>
+            <div>
+                <label for="password" class="block text-gray-700 font-medium mb-1">Contraseña</label>
+                <input type="password" id="password" name="LoginRequest.Password" placeholder="Ingresa tu contraseña"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 transition" />
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <p class="text-red-500 text-sm">@Html.ValidationSummary(false, "", new { @class = "text-red-500" })</p>
+            }
+
+            <button type="submit"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition">
+                Acceder
+            </button>
+        </form>
+
+        <div class="text-center">
+            <p class="text-sm text-gray-600">
+                ¿No tienes una cuenta?
+                <a href="/Account/Register" class="font-medium text-teal-600 hover:text-teal-500">Regístrate</a>
+            </p>
+        </div>
+    </div>
+</div>

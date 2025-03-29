@@ -1,0 +1,172 @@
+﻿@page
+@model ProyectoReportes.Pages.Dashboard.IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_Layout";
+}
+
+<div class="min-h-screen bg-gray-100">
+    <header class="bg-white shadow-md p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">📊 Dashboard</h1>
+        <div class="flex items-center space-x-4">
+            <button class="text-gray-600 font-semibold hover:text-gray-800 transition" onclick="openUserModal()">
+                👤 Usuario
+            </button>
+            <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition" onclick="logout()">
+                🔒 Cerrar Sesión
+            </button>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-bold text-gray-700 mb-2">📅 Últimos Reportes</h3>
+                <p class="text-gray-600">Visualiza los reportes más recientes.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-bold text-gray-700 mb-2">📈 Estadísticas</h3>
+                <p class="text-gray-600">Revisión rápida de métricas clave.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-bold text-gray-700 mb-2">🛠 Configuración</h3>
+                <p class="text-gray-600">Ajusta tus preferencias y permisos.</p>
+            </div>
+        </div>
+
+        <a class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
+            asp-page="/Reports/Create">
+            ➕ Crear Reporte
+        </a>
+
+        <div class="mt-6 overflow-x-auto bg-white shadow-md rounded-lg">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left">ID</th>
+                        <th class="py-3 px-6 text-left">Descripción</th>
+                        <th class="py-3 px-6 text-left">Fecha</th>
+                        <th class="py-3 px-6 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 text-sm">
+                    @foreach (var incident in Model.Incidents)
+                    {
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition">
+                            <td class="py-3 px-6">@incident.IncidentId</td>
+                            <td class="py-3 px-6">@incident.Description</td>
+                            <td class="py-3 px-6">@incident.OccurredAt.ToLocalTime().ToString("g")</td>
+                            <td class="py-3 px-6 text-center">
+                                <a class="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition"
+                                    asp-page="/Reports/Details" asp-route-id="@incident.IncidentId">
+                                    🔍 Detalles
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- 🔹 Modal de Usuario -->
+<div id="userModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">👤 Perfil de Usuario</h2>
+        <div class="grid grid-cols-2 gap-6">
+            <div>
+                <label class="block text-gray-700">Nombre Completo:</label>
+                <input id="fullName" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
+                    placeholder="Tu nombre completo">
+
+                <label class="block text-gray-700">Cédula:</label>
+                <input id="cedula" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
+                    placeholder="Cédula">
+
+                <label class="block text-gray-700">Teléfono:</label>
+                <input id="phoneNumber" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
+                    placeholder="Teléfono">
+                <label class="block text-gray-700">Fecha de Nacimiento:</label>
+                <input id="dateOfBirth" type="date" class="w-full border border-gray-300 p-2 rounded-lg mb-4">
+
+            </div>
+
+            <div class="flex flex-col items-center">
+                <label class="block text-gray-700">Foto de Perfil:</label>
+                <img id="profileImage" src="/images/default-profile.png" alt="Perfil"
+                    class="w-24 h-24 rounded-full border border-gray-300 object-cover mb-2">
+                <input id="imageUpload" type="file" accept="image/*"
+                    class="border border-gray-300 p-2 rounded-lg w-full" onchange="previewImage(event)">
+            </div>
+        </div>
+
+        <div class="flex justify-end space-x-2 mt-6">
+            <button type="button" onclick="closeUserModal()"
+                class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">
+                ❌ Cerrar
+            </button>
+            <button type="button" onclick="saveUserInfo()"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                💾 Guardar
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // 🟢 Función para abrir el modal de usuario
+    function openUserModal() {
+        const modal = document.getElementById("userModal");
+        modal.classList.remove("hidden");
+
+        document.getElementById("userName").value = localStorage.getItem("userName") || "";
+        document.getElementById("userEmail").value = localStorage.getItem("userEmail") || "";
+    }
+
+    // 🔴 Función para cerrar el modal
+    function closeUserModal() {
+        document.getElementById("userModal").classList.add("hidden");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get("token");
+
+        if (token) {
+            localStorage.setItem("accesstoken", token);
+            console.log("Token guardado en localStorage:", token);
+
+            window.history.replaceState({}, document.title, "/Dashboard/Panel");
+
+            startTokenTimer();
+        }
+
+        checkTokenExpiration();
+    });
+
+    function checkTokenExpiration() {
+        const token = localStorage.getItem("accesstoken");
+
+        if (!token) {
+            console.warn("Token no encontrado. Cerrando sesión...");
+            logout();
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("accesstoken");
+        window.location.href = "/Account/Login";
+    }
+
+    function startTokenTimer() {
+        setTimeout(() => {
+            console.warn("El token ha expirado. Cerrando sesión...");
+            logout();
+        }, 60 * 60 * 1000);
+    }
+
+    setInterval(checkTokenExpiration, 60000);
+</script>

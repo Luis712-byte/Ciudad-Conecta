@@ -1,0 +1,69 @@
+# Compilación
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+
+# Archivos de usuario y configuración
+*.user
+*.suo
+*.sln.cache
+*.vs/
+.vscode/
+.idea/
+*.csproj.user
+*.dbmdl
+*.sln.docstates
+
+# Paquetes de dependencias
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+nuget.config
+nuget.exe
+*.nuget.props
+*.nuget.targets
+
+# Archivos de publicación
+publish/
+wwwroot/uploads/
+wwwroot/assets/
+wwwroot/dist/
+node_modules/
+
+# Logs y caché
+logs/
+*.log
+*.tlog
+*.cache
+*.vspx
+*.vspf
+*.vsp
+*.sdf
+*.pidb
+
+# Configuración de base de datos
+*.mdf
+*.ldf
+*.sqlite
+*.db
+
+# Docker y contenedores
+docker-compose.override.yml
+.dockerignore
+
+# Archivos temporales del sistema operativo
+*.swp
+*.swn
+*.bak
+*.tmp
+Thumbs.db
+ehthumbs.db
+.DS_Store

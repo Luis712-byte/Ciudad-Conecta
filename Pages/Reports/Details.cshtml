@@ -1,0 +1,25 @@
+@page "{id:int}"
+@model ProyectoReportes.Pages.Reports.DetailsModel
+@{
+    ViewData["Title"] = "Detalle del Reporte";
+    Layout = "_Layout";
+}
+
+<h2>Detalle del Reporte</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">ID: @(Model.Incident != null ? Model.Incident.IncidentId.ToString() : "N/A")</h5>
+        <p class="card-text"><strong>Descripción:</strong> @(Model.Incident != null ? Model.Incident.Description :
+                        "N/A")</p>
+        <p class="card-text">
+            <strong>Ubicación:</strong>
+            Lat: @(Model.Incident != null ? Model.Incident.Latitude.ToString() : "N/A"), Long: @(Model.Incident != null
+                        ? Model.Incident.Longitude.ToString() : "N/A")
+        </p>
+        <p class="card-text"><strong>Fecha:</strong> @(Model.Incident != null ?
+                        Model.Incident.OccurredAt.ToLocalTime().ToString("g") : "N/A")</p>
+    </div>
+</div>
+
+<a class="btn btn-primary mt-3" asp-page="/Dashboard/Index">Volver al Dashboard</a>
