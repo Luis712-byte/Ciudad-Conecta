@@ -57,7 +57,7 @@ namespace ProyectoReportes.Pages.Account
 
         private string GenerateJwtToken(ProyectoReportes.Models.Account user)
         {
-            var jwtKey = _configuration["Jwt:Key"];
+            var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");;
             if (string.IsNullOrEmpty(jwtKey))
             {
                 throw new InvalidOperationException("JWT Key is not configured.");
@@ -68,15 +68,15 @@ namespace ProyectoReportes.Pages.Account
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+                 new Claim(ClaimTypes.Name, user.Username),
+                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+             };
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1), 
+                expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: credentials
             );
 
