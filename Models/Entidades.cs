@@ -77,7 +77,8 @@ namespace ProyectoReportes.Models
 
         [Required]
         public double Longitude { get; set; }
-
+        
+        public string Address { get; set; } = string.Empty;
         [Required]
         [StringLength(50)]
         public string Status { get; set; } = string.Empty;

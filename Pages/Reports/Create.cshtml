@@ -1,0 +1,101 @@
+@page
+@model ProyectoReportes.Pages.Reports.CreateModel
+@{
+    ViewData["Title"] = "Crear Reporte";
+    Layout = "_Layout";
+}
+
+<!-- Contenedor de pantalla completa con fondo gris claro -->
+<div class="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 px-4">
+    <!-- Contenedor central del formulario -->
+    <div class="w-full max-w-3xl bg-white p-10 shadow-2xl rounded-lg">
+        <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">📍 Crear Nuevo Reporte</h2>
+
+        <form method="post" class="space-y-6">
+            @Html.AntiForgeryToken()
+
+            <!-- Campo de Descripción -->
+            <div>
+                <label for="description" class="block text-gray-700 font-semibold mb-2">Descripción del
+                    Incidente</label>
+                <input type="text" id="description" name="IncidentDto.Description"
+                    value="@Model.IncidentDto.Description" placeholder="Ingresa la descripción..." required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 transition" />
+            </div>
+
+            <!-- Campo de Dirección con sugerencias -->
+            <div class="relative">
+                <label for="address" class="block text-gray-700 font-semibold mb-2">Dirección del Incidente</label>
+                <input type="text" id="address" name="IncidentDto.Address" value="@Model.IncidentDto.Address"
+                    placeholder="Ingresa la dirección..." required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 transition" />
+            </div>
+
+            <!-- Campo Oculto para el ID de Usuario -->
+            <input type="hidden" name="IncidentDto.ReportedByAccountId" value="1" />
+
+            <!-- Botón de envío -->
+            <div>
+                <button type="submit"
+                    class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                    🚀 Enviar Reporte
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@if (Model.IncidentDto.Latitude != 0 && Model.IncidentDto.Longitude != 0)
+{
+    <div class="fixed inset-0 bg-white flex flex-col items-center justify-center">
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">📌 Ubicación del Reporte</h3>
+        <div id="map" class="h-96 w-full max-w-4xl rounded-lg shadow-md"></div>
+        <div class="w-full max-w-4xl px-4">
+            <a href="/Dashboard/Panel"
+                class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition text-center">
+                ❌ Salir del Reporte
+            </a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Obtener las coordenadas del modelo y formatearlas correctamente
+            var latitude = parseFloat("@Model.IncidentDto.Latitude".replace(',', '.'));
+            var longitude = parseFloat("@Model.IncidentDto.Longitude".replace(',', '.'));
+
+            console.log("Coordenadas: ", latitude, longitude);
+
+            // Asegúrate de que las coordenadas no sean NaN antes de crear el mapa
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                var map = L.map('map').setView([latitude, longitude], 15);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                L.marker([latitude, longitude])
+                    .addTo(map)
+                    .bindPopup('<b>Ubicación del Reporte</b><br>' + "@Model.IncidentDto.Address")
+                    .openPopup();
+            } else {
+                console.log("Las coordenadas no son válidas.");
+            }
+        });
+    </script>
+
+}
+
+<script>
+    const googleMapsApiKey = "@Model.GoogleMapsApiKey";
+    console.log("Google Maps API Key:", googleMapsApiKey);
+
+    function initAutocomplete() {
+        var input = document.getElementById('address');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+    }
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=@Model.GoogleMapsApiKey&libraries=places&callback=initAutocomplete"
+    async defer></script>

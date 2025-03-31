@@ -15,7 +15,6 @@ if (rawConnectionString is null)
 }
 
 string? dbPassword = Environment.GetEnvironmentVariable("AZURE_SQL_PASSWORD");
-
 if (string.IsNullOrEmpty(dbPassword))
 {
     if (!builder.Environment.IsDevelopment())
@@ -29,7 +28,7 @@ if (string.IsNullOrEmpty(dbPassword))
 }
 
 string connectionString = rawConnectionString.Replace("{PASSWORD}", dbPassword);
-Console.WriteLine($"Connection String: {dbPassword}");
+// Console.WriteLine($"Connection String: {connectionString}");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -37,7 +36,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IAuthService, AuthService>();
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -45,6 +43,23 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+string? keyJWT = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+if (string.IsNullOrEmpty(keyJWT))
+{
+    if (!builder.Environment.IsDevelopment())
+    {
+        throw new Exception("La contraseña de la base de datos no está configurada.");
+    }
+    else
+    {
+        keyJWT = "valor_de_prueba";
+    }
+}
+
+string jwtConnectionString = rawConnectionString.Replace("{JWT}", keyJWT);
+var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyJWT));
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -61,8 +76,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new Exception("Jwt:Key is not configured")))
+        IssuerSigningKey = signingKey
     };
 });
 

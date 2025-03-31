@@ -5,168 +5,244 @@
     Layout = "_Layout";
 }
 
-<div class="min-h-screen bg-gray-100">
-    <header class="bg-white shadow-md p-4 flex justify-between items-center">
+
+<div class="min-h-screen bg-gray-50">
+    <header class="bg-white shadow p-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-gray-800">📊 Dashboard</h1>
         <div class="flex items-center space-x-4">
             <button class="text-gray-600 font-semibold hover:text-gray-800 transition" onclick="openUserModal()">
                 👤 Usuario
             </button>
-            <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition" onclick="logout()">
+            <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition" onclick="logout()">
                 🔒 Cerrar Sesión
             </button>
         </div>
     </header>
 
     <div class="container mx-auto p-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-bold text-gray-700 mb-2">📅 Últimos Reportes</h3>
-                <p class="text-gray-600">Visualiza los reportes más recientes.</p>
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Funciones Básicas</h2>
+            <div class="flex flex-wrap justify-between gap-6">
+                <div
+                    class="flex-1 min-w-[200px] bg-green-100 hover:bg-green-200 transition p-4 rounded-lg shadow-lg text-center">
+                    <a href="/Reports/Create" class="block">
+                        <div class="text-5xl mb-2">➕</div>
+                        <div class="text-xl font-bold text-green-800">Crear Reporte</div>
+                        <p class="text-green-700 text-sm mt-1">Inicia un nuevo reporte</p>
+                    </a>
+                </div>
+                <div
+                    class="flex-1 min-w-[200px] bg-green-100 hover:bg-green-200 transition p-4 rounded-lg shadow-lg text-center">
+                    <a href="#" class="block">
+                        <div class="text-5xl mb-2">📈</div>
+                        <div class="text-xl font-bold text-green-800">Estadísticas</div>
+                        <p class="text-green-700 text-sm mt-1">Métricas y tendencias</p>
+                    </a>
+                </div>
+                <div
+                    class="flex-1 min-w-[200px] bg-green-100 hover:bg-green-200 transition p-4 rounded-lg shadow-lg text-center">
+                    <a href="#" onclick="openUserModal()" class="block">
+                        <div class="text-5xl mb-2">⚙️</div>
+                        <div class="text-xl font-bold text-green-800">Configuración</div>
+                        <p class="text-green-700 text-sm mt-1">Edita tu perfil</p>
+                    </a>
+                </div>
+                <div
+                    class="flex-1 min-w-[200px] bg-green-100 hover:bg-green-200 transition p-4 rounded-lg shadow-lg text-center">
+                    <a href="#" class="block">
+                        <div class="text-5xl mb-2">ℹ️</div>
+                        <div class="text-xl font-bold text-green-800">Más Información</div>
+                        <p class="text-green-700 text-sm mt-1">Detalles y recursos</p>
+                    </a>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-bold text-gray-700 mb-2">📈 Estadísticas</h3>
-                <p class="text-gray-600">Revisión rápida de métricas clave.</p>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Funciones Operativas del Proyecto</h2>
+            <div class="flex flex-wrap justify-between gap-6">
+                <div
+                    class="flex-1 min-w-[200px] bg-purple-100 hover:bg-purple-200 transition p-4 rounded-lg shadow-lg text-center">
+                    <a asp-page="/Map/Interactive" class="block">
+                        <div class="text-5xl mb-2">🗺</div>
+                        <div class="text-xl font-bold text-purple-800">Mapa Interactivo</div>
+                        <p class="text-purple-700 text-sm mt-1">Ver incidencias en tiempo real</p>
+                    </a>
+                </div>
+                <div
+                    class="flex-1 min-w-[200px] bg-purple-100 hover:bg-purple-200 transition p-4 rounded-lg shadow-lg text-center">
+                    <a asp-page="/Reports/Analytics" class="block">
+                        <div class="text-5xl mb-2">📊</div>
+                        <div class="text-xl font-bold text-purple-800">Reportes Avanzados</div>
+                        <p class="text-purple-700 text-sm mt-1">Gráficos y análisis detallados</p>
+                    </a>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-bold text-gray-700 mb-2">🛠 Configuración</h3>
-                <p class="text-gray-600">Ajusta tus preferencias y permisos.</p>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-extrabold text-gray-800 text-center mb-8">🔔 Actualizaciones y Noticias</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div
+                    class="relative bg-white p-6 rounded-xl shadow-md border border-gray-200 transition hover:shadow-xl hover:-translate-y-1">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">🚀 Nueva Funcionalidad</h3>
+                    <p class="text-gray-600 text-sm">Ahora puedes gestionar reportes avanzados con mayor facilidad.</p>
+                    <a href="#"
+                        class="mt-4 inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Ver Detalles
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </a>
+                    <span
+                        class="absolute top-3 right-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">Nuevo</span>
+                </div>
+
+                <div
+                    class="relative bg-white p-6 rounded-xl shadow-md border border-gray-200 transition hover:shadow-xl hover:-translate-y-1">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">⚙️ Mantenimiento Programado</h3>
+                    <p class="text-gray-600 text-sm">Se realizarán mejoras en el sistema. Revisa los detalles.</p>
+                    <a href="#"
+                        class="mt-4 inline-flex items-center bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition">
+                        Más Información
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </a>
+                    <span
+                        class="absolute top-3 right-3 bg-orange-600 text-white text-xs px-2 py-1 rounded-full">Pronto</span>
+                </div>
+
+                <div
+                    class="relative bg-white p-6 rounded-xl shadow-md border border-gray-200 transition hover:shadow-xl hover:-translate-y-1">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">📰 Boletín de Noticias</h3>
+                    <p class="text-gray-600 text-sm">Mantente informado con las últimas novedades.</p>
+                    <a href="#"
+                        class="mt-4 inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                        Leer Más
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </a>
+                    <span
+                        class="absolute top-3 right-3 bg-green-600 text-white text-xs px-2 py-1 rounded-full">Nuevo</span>
+                </div>
+
+                <div
+                    class="relative bg-white p-6 rounded-xl shadow-md border border-gray-200 transition hover:shadow-xl hover:-translate-y-1">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">💬 Feedback</h3>
+                    <p class="text-gray-600 text-sm">Ayúdanos a mejorar enviando tus sugerencias.</p>
+                    <a href="#"
+                        class="mt-4 inline-flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+                        Enviar Sugerencia
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </a>
+                    <span
+                        class="absolute top-3 right-3 bg-purple-600 text-white text-xs px-2 py-1 rounded-full">Abierto</span>
+                </div>
+            </div>
+        </section>
+
+
+        <div id="userModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">👤 Perfil de Usuario</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700">Nombre Completo:</label>
+                        <input id="fullName" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
+                            placeholder="Tu nombre completo">
+
+                        <label class="block text-gray-700">Cédula:</label>
+                        <input id="cedula" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
+                            placeholder="Cédula">
+
+                        <label class="block text-gray-700">Teléfono:</label>
+                        <input id="phoneNumber" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
+                            placeholder="Teléfono">
+
+                        <label class="block text-gray-700">Fecha de Nacimiento:</label>
+                        <input id="dateOfBirth" type="date" class="w-full border border-gray-300 p-2 rounded-lg mb-4">
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <label class="block text-gray-700 mb-1">Foto de Perfil:</label>
+                        <img id="profileImage" src="/images/default-profile.png" alt="Perfil"
+                            class="w-24 h-24 rounded-full border border-gray-300 object-cover mb-2">
+                        <input id="imageUpload" type="file" accept="image/*"
+                            class="border border-gray-300 p-2 rounded-lg w-full" onchange="previewImage(event)">
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-2 mt-6">
+                    <button type="button" onclick="closeUserModal()"
+                        class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">
+                        ❌ Cerrar
+                    </button>
+                    <button type="button" onclick="saveUserInfo()"
+                        class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition">
+                        💾 Guardar
+                    </button>
+                </div>
             </div>
         </div>
 
-        <a class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
-            asp-page="/Reports/Create">
-            ➕ Crear Reporte
-        </a>
+        <script>
+            // 🟢 Función para abrir el modal de usuario
+            function openUserModal() {
+                const modal = document.getElementById("userModal");
+                modal.classList.remove("hidden");
 
-        <div class="mt-6 overflow-x-auto bg-white shadow-md rounded-lg">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
-                        <th class="py-3 px-6 text-left">ID</th>
-                        <th class="py-3 px-6 text-left">Descripción</th>
-                        <th class="py-3 px-6 text-left">Fecha</th>
-                        <th class="py-3 px-6 text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700 text-sm">
-                    @foreach (var incident in Model.Incidents)
-                    {
-                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition">
-                            <td class="py-3 px-6">@incident.IncidentId</td>
-                            <td class="py-3 px-6">@incident.Description</td>
-                            <td class="py-3 px-6">@incident.OccurredAt.ToLocalTime().ToString("g")</td>
-                            <td class="py-3 px-6 text-center">
-                                <a class="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition"
-                                    asp-page="/Reports/Details" asp-route-id="@incident.IncidentId">
-                                    🔍 Detalles
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                document.getElementById("userName").value = localStorage.getItem("userName") || "";
+                document.getElementById("userEmail").value = localStorage.getItem("userEmail") || "";
+            }
 
-    </div>
-</div>
+            // 🔴 Función para cerrar el modal
+            function closeUserModal() {
+                document.getElementById("userModal").classList.add("hidden");
+            }
 
-<!-- 🔹 Modal de Usuario -->
-<div id="userModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
-    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">👤 Perfil de Usuario</h2>
-        <div class="grid grid-cols-2 gap-6">
-            <div>
-                <label class="block text-gray-700">Nombre Completo:</label>
-                <input id="fullName" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
-                    placeholder="Tu nombre completo">
+            document.addEventListener("DOMContentLoaded", function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get("token");
 
-                <label class="block text-gray-700">Cédula:</label>
-                <input id="cedula" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
-                    placeholder="Cédula">
+                if (token) {
+                    localStorage.setItem("accesstoken", token);
+                    console.log("Token guardado en localStorage:", token);
 
-                <label class="block text-gray-700">Teléfono:</label>
-                <input id="phoneNumber" type="text" class="w-full border border-gray-300 p-2 rounded-lg mb-4"
-                    placeholder="Teléfono">
-                <label class="block text-gray-700">Fecha de Nacimiento:</label>
-                <input id="dateOfBirth" type="date" class="w-full border border-gray-300 p-2 rounded-lg mb-4">
+                    window.history.replaceState({}, document.title, "/Dashboard/Panel");
 
-            </div>
+                    startTokenTimer();
+                }
 
-            <div class="flex flex-col items-center">
-                <label class="block text-gray-700">Foto de Perfil:</label>
-                <img id="profileImage" src="/images/default-profile.png" alt="Perfil"
-                    class="w-24 h-24 rounded-full border border-gray-300 object-cover mb-2">
-                <input id="imageUpload" type="file" accept="image/*"
-                    class="border border-gray-300 p-2 rounded-lg w-full" onchange="previewImage(event)">
-            </div>
-        </div>
+                checkTokenExpiration();
+            });
 
-        <div class="flex justify-end space-x-2 mt-6">
-            <button type="button" onclick="closeUserModal()"
-                class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition">
-                ❌ Cerrar
-            </button>
-            <button type="button" onclick="saveUserInfo()"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                💾 Guardar
-            </button>
-        </div>
-    </div>
-</div>
+            function checkTokenExpiration() {
+                const token = localStorage.getItem("accesstoken");
 
+                if (!token) {
+                    console.warn("Token no encontrado. Cerrando sesión...");
+                    logout();
+                }
+            }
 
-<script>
-    // 🟢 Función para abrir el modal de usuario
-    function openUserModal() {
-        const modal = document.getElementById("userModal");
-        modal.classList.remove("hidden");
+            function logout() {
+                localStorage.removeItem("accesstoken");
+                window.location.href = "/Account/Login";
+            }
 
-        document.getElementById("userName").value = localStorage.getItem("userName") || "";
-        document.getElementById("userEmail").value = localStorage.getItem("userEmail") || "";
-    }
+            function startTokenTimer() {
+                setTimeout(() => {
+                    console.warn("El token ha expirado. Cerrando sesión...");
+                    logout();
+                }, 60 * 60 * 1000);
+            }
 
-    // 🔴 Función para cerrar el modal
-    function closeUserModal() {
-        document.getElementById("userModal").classList.add("hidden");
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get("token");
-
-        if (token) {
-            localStorage.setItem("accesstoken", token);
-            console.log("Token guardado en localStorage:", token);
-
-            window.history.replaceState({}, document.title, "/Dashboard/Panel");
-
-            startTokenTimer();
-        }
-
-        checkTokenExpiration();
-    });
-
-    function checkTokenExpiration() {
-        const token = localStorage.getItem("accesstoken");
-
-        if (!token) {
-            console.warn("Token no encontrado. Cerrando sesión...");
-            logout();
-        }
-    }
-
-    function logout() {
-        localStorage.removeItem("accesstoken");
-        window.location.href = "/Account/Login";
-    }
-
-    function startTokenTimer() {
-        setTimeout(() => {
-            console.warn("El token ha expirado. Cerrando sesión...");
-            logout();
-        }, 60 * 60 * 1000);
-    }
-
-    setInterval(checkTokenExpiration, 60000);
-</script>
+            setInterval(checkTokenExpiration, 60000);
+        </script>
