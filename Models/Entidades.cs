@@ -77,7 +77,7 @@ namespace ProyectoReportes.Models
 
         [Required]
         public double Longitude { get; set; }
-        
+
         public string Address { get; set; } = string.Empty;
         [Required]
         [StringLength(50)]
@@ -87,5 +87,8 @@ namespace ProyectoReportes.Models
 
         [ForeignKey(nameof(ReportedByAccountId))]
         public Account? ReportedBy { get; set; }
+
+        [StringLength(100)]
+        public string ReportedByUsername { get; set; } = string.Empty;
     }
 }

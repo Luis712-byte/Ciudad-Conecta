@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ProyectoReportes.Data;
 using ProyectoReportes.Models.DTOs;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace ProyectoReportes.Pages.Account
 {
@@ -64,16 +63,7 @@ namespace ProyectoReportes.Pages.Account
 
         private string HashPassword(string password)
         {
-            using (var sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-                foreach (byte b in bytes)
-                {
-                    builder.Append(b.ToString("x2"));
-                }
-                return builder.ToString();
-            }
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }

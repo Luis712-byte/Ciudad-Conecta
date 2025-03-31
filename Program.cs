@@ -34,7 +34,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddRazorPages();
-builder.Services.AddControllers();
+builder.Services.AddControllers();builder.Services.AddScoped<ReportService>();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

@@ -1,25 +1,62 @@
-@page "{id:int}"
+@page
 @model ProyectoReportes.Pages.Reports.DetailsModel
+
 @{
-    ViewData["Title"] = "Detalle del Reporte";
+    ViewData["Title"] = "Detalles de Reportes";
     Layout = "_Layout";
 }
 
-<h2>Detalle del Reporte</h2>
+<div class="p-6 bg-white dark:bg-gray-900 shadow-lg rounded-xl">
+    <h2 class="text-2xl font-bold text-purple-800 dark:text-purple-300 mb-4">📋 Reportes Pendientes</h2>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">ID: @(Model.Incident != null ? Model.Incident.IncidentId.ToString() : "N/A")</h5>
-        <p class="card-text"><strong>Descripción:</strong> @(Model.Incident != null ? Model.Incident.Description :
-                        "N/A")</p>
-        <p class="card-text">
-            <strong>Ubicación:</strong>
-            Lat: @(Model.Incident != null ? Model.Incident.Latitude.ToString() : "N/A"), Long: @(Model.Incident != null
-                        ? Model.Incident.Longitude.ToString() : "N/A")
-        </p>
-        <p class="card-text"><strong>Fecha:</strong> @(Model.Incident != null ?
-                        Model.Incident.OccurredAt.ToLocalTime().ToString("g") : "N/A")</p>
-    </div>
+    @if (Model.Incidents.Count == 0)
+    {
+        <p class="text-gray-500">No tienes reportes pendientes.</p>
+    }
+    else
+    {
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+                <thead class="bg-purple-600 text-white">
+                    <tr>
+                        <th class="p-3">ID</th>
+                        <th class="p-3">Descripción</th>
+                        <th class="p-3">Dirección</th>
+                        <th class="p-3">Fecha</th>
+                        <th class="p-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var incident in Model.Incidents)
+                    {
+                        <tr class="border-b dark:border-gray-700">
+                            <td class="p-3 text-center">@incident.IncidentId</td>
+                            <td class="p-3">@incident.Description</td>
+                            <td class="p-3">@incident.Address</td>
+                            <td class="p-3 text-center">@incident.OccurredAt.ToString("dd/MM/yyyy")</td>
+                            <td class="p-3 text-center">
+                                <div class="flex gap-2 justify-center">
+                                    <form method="post">
+                                        <input type="hidden" name="id" value="@incident.IncidentId" />
+                                        <button formaction="?handler=MarkAsResolved" type="submit"
+                                            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
+                                            ✔ Resolver
+                                        </button>
+                                    </form>
+
+                                    <form method="post" onsubmit="return confirm('¿Seguro que deseas eliminar este reporte?');">
+                                        <input type="hidden" name="id" value="@incident.IncidentId" />
+                                        <button formaction="?handler=Delete" type="submit"
+                                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition">
+                                            ❌ Eliminar
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
-
-<a class="btn btn-primary mt-3" asp-page="/Dashboard/Index">Volver al Dashboard</a>
