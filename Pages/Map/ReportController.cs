@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProyectoReportes.Models;
+using ProyectoReportes.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,9 +16,8 @@ public class ReportController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetReports()
+    public async Task<List<IncidentDto>> GetAllReportsAsync()
     {
-        var reports = await _reportService.GetAllReportsAsync();
-        return Ok(reports);
+        return await _reportService.GetAllReportsAsync();
     }
 }

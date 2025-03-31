@@ -20,14 +20,15 @@ public class ReportService
 
         return incidents.Select(i => new IncidentDto
         {
-            Id = i.IncidentId,  
+            Id = i.IncidentId,
             Description = i.Description,
             Address = i.Address,
             OccurredAt = i.OccurredAt,
             Latitude = i.Latitude,
             Longitude = i.Longitude,
             Status = i.Status,
-            ReportedByAccountId = i.ReportedByAccountId ?? 0  
+            ReportedByAccountId = i.ReportedByAccountId ?? 0,
+            ReportedByUsername = string.IsNullOrEmpty(i.ReportedByUsername) ? "Desconocido" : i.ReportedByUsername
         }).ToList();
     }
 

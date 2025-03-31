@@ -25,6 +25,8 @@ namespace ProyectoReportes.Models
         public string Status { get; set; } = "Pendiente";
 
         [Required]
-        public int ReportedByAccountId { get; set; }
+        public int? ReportedByAccountId { get; set; }
+
+        public string ReportedByUsername { get; set; } = string.Empty;
     }
 }

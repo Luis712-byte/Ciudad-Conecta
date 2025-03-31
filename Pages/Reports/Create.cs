@@ -7,7 +7,11 @@ using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+
 
 namespace ProyectoReportes.Pages.Reports
 {
@@ -16,11 +20,13 @@ namespace ProyectoReportes.Pages.Reports
         private readonly ApplicationDbContext _db;
 
         public string? GoogleMapsApiKey { get; private set; }
+        public List<IncidentDto> Reports { get; set; } = new List<IncidentDto>();
 
         public CreateModel(ApplicationDbContext db)
         {
             _db = db;
             GoogleMapsApiKey = Environment.GetEnvironmentVariable("GOOGLE_MAPS_API_KEY");
+            Reports = new List<IncidentDto>();
         }
 
         [BindProperty]
@@ -43,6 +49,23 @@ namespace ProyectoReportes.Pages.Reports
                 return Page();
             }
 
+            Console.WriteLine($"🔍 Usuario autenticado: {User.Identity.IsAuthenticated}");
+
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (string.IsNullOrEmpty(userName))
+            {
+                Console.WriteLine("❌ No se encontró el usuario autenticado.");
+                return Unauthorized();
+            }
+
+            var usuario = await _db.Accounts.FirstOrDefaultAsync(u => u.Username == userName);
+            if (usuario == null)
+            {
+                Console.WriteLine("❌ No se encontró el usuario en la base de datos.");
+                return Unauthorized();
+            }
+
+            Console.WriteLine($"🔍 Usuario autenticado: {userName}");
 
             var (latitude, longitude) = await GetCoordinatesFromAddress(IncidentDto.Address);
             Console.WriteLine($"📍 Coordenadas obtenidas: {latitude}, {longitude}");
@@ -55,7 +78,8 @@ namespace ProyectoReportes.Pages.Reports
                 Latitude = latitude,
                 Longitude = longitude,
                 Status = "Pendiente",
-                ReportedByAccountId = 1
+                ReportedByAccountId = usuario.AccountId,
+                ReportedByUsername = usuario.Username
             };
 
             _db.Incidents.Add(incident);
@@ -67,9 +91,7 @@ namespace ProyectoReportes.Pages.Reports
             IncidentDto.Longitude = longitude;
 
             return Page();
-
         }
-
 
         private async Task<(double latitude, double longitude)> GetCoordinatesFromAddress(string address)
         {

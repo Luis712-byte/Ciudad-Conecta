@@ -1,14 +1,22 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const map = L.map('map').setView([10.0, -75.0], 6); 
+    // console.log("Script de mapa cargado");
 
-    // Agregar capa base de OpenStreetMap
+    const map = L.map('map').setView([10.0, -75.0], 6);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     try {
-        const response = await fetch('/api/reports'); 
+        console.log("Intentando obtener reportes...");
+        const response = await fetch('/api/reports');
+
+        if (!response.ok) {
+            throw new Error(`Error en API: ${response.status}`);
+        }
+
         const reports = await response.json();
+        // console.log("Datos obtenidos:", reports);
 
         reports.forEach(report => {
             if (!report.latitude || !report.longitude) {
@@ -16,19 +24,22 @@ document.addEventListener("DOMContentLoaded", async function () {
                 return;
             }
 
-            let formattedDate = "Fecha no disponible";
-            if (report.occurredAt) {
-                const dateObj = new Date(report.occurredAt);
-                if (!isNaN(dateObj.getTime())) {
-                    formattedDate = dateObj.toLocaleString();
-                }
-            }
+            console.log("Reporte válido:", report);
 
-            const marker = L.marker([report.latitude, report.longitude]).addTo(map)
+            let formattedDate = report.occurredAt 
+                ? new Date(report.occurredAt).toLocaleString() 
+                : "Fecha no disponible";
+
+            const reportedBy = report.reportedByUsername && report.reportedByUsername.trim() !== "" 
+                ? report.reportedByUsername 
+                : "Desconocido";
+
+            L.marker([report.latitude, report.longitude]).addTo(map)
                 .bindPopup(`
                     <strong>${report.address || "Sin dirección"}</strong><br>
                     ${report.description || "Sin descripción"}<br>
-                    <small>${formattedDate}</small>
+                    <small>${formattedDate}</small><br>
+                    <em>Reportado por: ${reportedBy}</em>
                 `);
         });
     } catch (error) {

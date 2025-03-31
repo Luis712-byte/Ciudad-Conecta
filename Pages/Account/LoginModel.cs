@@ -47,7 +47,19 @@ namespace ProyectoReportes.Pages.Account
 
             var token = GenerateJwtToken(user);
 
-            return Redirect($"/Dashboard/Panel?token={token}");
+            Response.Cookies.Append("AuthToken", token, new CookieOptions
+            {
+                HttpOnly = false,
+                Secure = true, 
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddHours(1)
+            });
+
+
+            Console.WriteLine("Cookie AuthToken establecida correctamente");
+
+
+            return LocalRedirect($"/Dashboard/Panel?token={token}");
         }
 
         private bool VerifyPassword(string inputPassword, string storedHash)
@@ -57,7 +69,7 @@ namespace ProyectoReportes.Pages.Account
 
         private string GenerateJwtToken(ProyectoReportes.Models.Account user)
         {
-            var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");;
+            var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY"); ;
             if (string.IsNullOrEmpty(jwtKey))
             {
                 throw new InvalidOperationException("JWT Key is not configured.");

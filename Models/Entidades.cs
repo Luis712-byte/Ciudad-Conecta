@@ -86,7 +86,6 @@ namespace ProyectoReportes.Models
         public int? ReportedByAccountId { get; set; }
 
         [ForeignKey(nameof(ReportedByAccountId))]
-        public Account? ReportedBy { get; set; }
 
         [StringLength(100)]
         public string ReportedByUsername { get; set; } = string.Empty;
